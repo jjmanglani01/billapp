@@ -31,17 +31,34 @@ int main()
 	sql::mysql::MySQL_Driver *driver;
 	sql::Connection *con;
 	sql::Statement *stmt;
-
-	driver = sql::mysql::get_mysql_driver_instance();
-	con = driver->connect(DBHOST, USER, PASSWORD);
-	con->setAutoCommit(0);
-	con->setSchema(DATABASE);
-	stmt = con->createStatement();
-	stmt->execute("CALL create_tables()");
-
-	con->close();
-	delete stmt;
-	delete con;
+	try {
+		driver = sql::mysql::get_mysql_driver_instance();
+		con = driver->connect(DBHOST, USER, PASSWORD);
+		con->setAutoCommit(0);
+		con->setSchema(DATABASE);
+		stmt = con->createStatement();
+		stmt->execute("CALL create_tables()");
+		/* Remove all tables from database 
+		std::string str = "";
+		stmt->execute("SHOW TABLES");
+		std::unique_ptr< sql::ResultSet > res;
+		do {
+			res.reset(stmt->getResultSet());
+			while (res->next()) {
+				 str += res->getString(1)+",";
+			}
+		} while (stmt->getMoreResults());
+		str.erase(str.length() - 1);
+		stmt->execute("DROP TABLE " + str);*/
+		con->close();
+		delete stmt;
+		delete con;
+		std::cout << "Created Tables Successfully";
+	}
+	catch (std::exception e) {
+		std::cout << "Something wrong happens "<<e.what();
+	}
+	std::cin.ignore();
     return 0;
 }
 
