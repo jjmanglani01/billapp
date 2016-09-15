@@ -4,7 +4,9 @@
 #include "stdafx.h"
 #include "BillApp.h"
 #include "SupplierForm.h"
-#include "DataAccessLayer.h"
+#include "FabricSupplier.h"
+#include "Helper.h"
+#include "Response.h"
 
 // SupplierForm
 
@@ -56,24 +58,63 @@ void SupplierForm::Dump(CDumpContext& dc) const
 void SupplierForm::OnClickedSupplierAdd()
 {
 	// TODO: Add your control notification handler code here
-	DataAccess::DataAccessLayer dl;
+	FabricSupplier oFabricSupplier;
 	CString cName;
 	CString cPhoneNo;
-	CString cAddress;
+	CString cAddress1;
+	CString cAddress2;
+	CString cCity;
+	CString cState;
 	CString cEmail;
 
 	GetDlgItemText(IDC_EDIT_SUPPLIER_NAME, cName);
 
-	GetDlgItemText(IDC_EDIT_SUPPLIER_PHONE, cPhoneNo);
+	GetDlgItemText(IDC_EDIT_SUPPLIER_ADDRESS1, cAddress1);
 
-	GetDlgItemText(IDC_EDIT_SUPPLIER_ADDRESS, cAddress);
+	GetDlgItemText(IDC_EDIT_SUPPLIER_ADDRESS2, cAddress2);
+
+	GetDlgItemText(IDC_EDIT_SUPPLIER_CITY, cCity);
+
+	GetDlgItemText(IDC_EDIT_SUPPLIER_STATE, cState);
 
 	GetDlgItemText(IDC_EDIT_SUPPLIER_EMAIL, cEmail);
 
-	CT2CA lpstrName(cName);
-	CT2CA lpstrPhoneNo(cPhoneNo);
-	CT2CA lpstrAddress(cAddress);
-	CT2CA lpstrEmail(cEmail);
+	struct Response stResponse;
+	stResponse = oFabricSupplier.setName(Helper::convertCstringToString(cName));
+	if (Helper::showDialog(stResponse))
+	{
+		return;
+	}
 
-	dl.insertToFabricSupplier(std::string(lpstrName), std::string(lpstrPhoneNo), std::string(lpstrEmail), std::string(lpstrAddress));
+	stResponse = oFabricSupplier.setAddress1(Helper::convertCstringToString(cAddress1));
+	if (Helper::showDialog(stResponse))
+	{
+		return;
+	}
+
+	stResponse = oFabricSupplier.setAddress2(Helper::convertCstringToString(cAddress2));
+	if (Helper::showDialog(stResponse))
+	{
+		return;
+	}
+	
+	stResponse = oFabricSupplier.setCity(Helper::convertCstringToString(cCity));
+	if (Helper::showDialog(stResponse))
+	{
+		return;
+	}
+
+	stResponse = oFabricSupplier.setState(Helper::convertCstringToString(cState));
+	if (Helper::showDialog(stResponse))
+	{
+		return;
+	}
+	
+	stResponse = oFabricSupplier.setEmail(Helper::convertCstringToString(cEmail));
+	if (Helper::showDialog(stResponse))
+	{
+		return;
+	}
+	
+	oFabricSupplier.save();
 }

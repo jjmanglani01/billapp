@@ -1,7 +1,6 @@
 #pragma once
-
-
-
+#ifndef __SupplierForm_H_INCLUDED__ 
+#define __SupplierForm_H_INCLUDED__ 
 // SupplierForm form view
 
 class SupplierForm : public CFormView
@@ -32,5 +31,4 @@ protected:
 public:
 	afx_msg void OnClickedSupplierAdd();
 };
-
-
+#endif
