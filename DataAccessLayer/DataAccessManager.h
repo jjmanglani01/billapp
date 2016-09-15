@@ -1,4 +1,7 @@
 #pragma once
+#ifndef __DATAACCESSMANAGER_H_INCLUDED__
+#define __DATAACCESSMANAGER_H_INCLUDED__
+
 #include <iostream>
 #include <sstream>
 #include <memory>
@@ -23,17 +26,19 @@
 #endif
 
 namespace DataAccess {
-	class DataAccessLayer {
+	class DataAccessManager {
 	private:
-		sql::mysql::MySQL_Driver *driver;
-		sql::Connection *con;
-		sql::Statement *stmt;
-		sql::PreparedStatement  *prepstmt;
+		std::unique_ptr<sql::mysql::MySQL_Driver> driver;
+		std::unique_ptr<sql::Connection> con;
+		 DataAccessManager();
+		static DataAccessManager *m_pInstance;
+		 ~DataAccessManager();
+	public:
 		void connect();
 		void disconnect();
-	public:
-		DATAACCESSLAYER_API DataAccessLayer();
-		DATAACCESSLAYER_API ~DataAccessLayer();
-		bool DATAACCESSLAYER_API insertToFabricSupplier(std::string strSupplierName, std::string strPhoneNo, std::string strEmail, std::string strAddress);
+		std::unique_ptr<sql::Connection>& getConnection();
+	    static DataAccessManager* getInstance();
 	};
 }
+
+#endif
