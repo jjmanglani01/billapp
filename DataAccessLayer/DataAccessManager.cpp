@@ -10,43 +10,44 @@
 
 namespace DataAccess {
 
-	DataAccessManager* DataAccessManager::m_pInstance = nullptr;
+	DataAccessManager* DataAccessManager::_pInstance = nullptr;
 
 	DataAccessManager::DataAccessManager() {
-		driver = std::unique_ptr<sql::mysql::MySQL_Driver>(sql::mysql::get_mysql_driver_instance());
-		con = std::unique_ptr<sql::Connection>(driver->connect(DBHOST, USER, PASSWORD));
-		con->setAutoCommit(0);
-		con->setSchema(DATABASE);
+		_pDriver = std::unique_ptr<sql::mysql::MySQL_Driver>(sql::mysql::get_mysql_driver_instance());
+		_pCon = std::unique_ptr<sql::Connection>(_pDriver->connect(DBHOST, USER, PASSWORD));
+		_pCon->setAutoCommit(0);
+		_pCon->setSchema(DATABASE);
 	}
 
 	void DataAccessManager::connect() {
-		if (con->isClosed()) {
-			con->reconnect();
+		if (_pCon->isClosed()) {
+			_pCon->reconnect();
 		}
 	}
 
 	void DataAccessManager::disconnect() {
-		if (!con->isClosed()) {
-			con->close();
+		if (!_pCon->isClosed()) {
+			_pCon->close();
 		}
 	}
 
 	std::unique_ptr<sql::Connection>& DataAccessManager::getConnection()
 	{
-		return con;
+		return _pCon;
 	}
 
 
 	DataAccessManager::~DataAccessManager() {
 		disconnect();
-		con.reset();
-		driver.reset();
+		_pCon.reset();
+		_pDriver.reset();
 	}
 	DataAccessManager* DataAccessManager::getInstance()
 	{
-		if (m_pInstance == nullptr) {
-			m_pInstance = new DataAccessManager();
+		if (_pInstance == nullptr) {
+			_pInstance = new DataAccessManager();
 		}
-		return m_pInstance;
+		return _pInstance;
 	}
+
 }

@@ -28,10 +28,10 @@
 namespace DataAccess {
 	class DataAccessManager {
 	private:
-		std::unique_ptr<sql::mysql::MySQL_Driver> driver;
-		std::unique_ptr<sql::Connection> con;
-		 DataAccessManager();
-		static DataAccessManager *m_pInstance;
+		std::unique_ptr<sql::mysql::MySQL_Driver> _pDriver;
+		std::unique_ptr<sql::Connection> _pCon;
+		DataAccessManager();
+		static DataAccessManager *_pInstance;
 		 ~DataAccessManager();
 	public:
 		void connect();
