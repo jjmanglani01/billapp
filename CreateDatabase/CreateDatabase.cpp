@@ -28,16 +28,16 @@
 
 int main()
 {
-	sql::mysql::MySQL_Driver *driver;
-	sql::Connection *con;
-	sql::Statement *stmt;
+	sql::mysql::MySQL_Driver *_pDriver;
+	sql::Connection *_pCon;
+	sql::Statement *_pStmt;
 	try {
-		driver = sql::mysql::get_mysql_driver_instance();
-		con = driver->connect(DBHOST, USER, PASSWORD);
-		con->setAutoCommit(0);
-		con->setSchema(DATABASE);
-		stmt = con->createStatement();
-		stmt->execute("CALL create_tables()");
+		_pDriver = sql::mysql::get_mysql_driver_instance();
+		_pCon = _pDriver->connect(DBHOST, USER, PASSWORD);
+		_pCon->setAutoCommit(0);
+		_pCon->setSchema(DATABASE);
+		_pStmt = _pCon->createStatement();
+		_pStmt->execute("CALL create_tables()");
 		/* Remove all tables from database 
 		std::string str = "";
 		stmt->execute("SHOW TABLES");
@@ -50,9 +50,9 @@ int main()
 		} while (stmt->getMoreResults());
 		str.erase(str.length() - 1);
 		stmt->execute("DROP TABLE " + str);*/
-		con->close();
-		delete stmt;
-		delete con;
+		_pCon->close();
+		delete _pStmt;
+		delete _pCon;
 		std::cout << "Created Tables Successfully";
 	}
 	catch (std::exception e) {
