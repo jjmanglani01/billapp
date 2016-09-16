@@ -2,6 +2,8 @@
 #include "Response.h"
 #include "FabricSupplierService.h"
 #include "FabricSupplier.h"
+#include "PhoneNumber.h"
+#include "ValidationHelper.h"
 
 FabricSupplier::FabricSupplier()
 {
@@ -12,10 +14,10 @@ FabricSupplier::~FabricSupplier()
 {
 }
 
-struct Response FabricSupplier::setSupplierID(unsigned int iId)
+Response FabricSupplier::setSupplierID(unsigned int iId)
 {
 	_iSupplierID = iId;
-	struct Response stResponse;
+	Response stResponse;
 	stResponse.iResponseCode = ALL_OK;
 	stResponse.strResponseMsg = (std::string)NOERROR;
 	return stResponse;
@@ -26,7 +28,7 @@ unsigned int FabricSupplier::getSupplierID()
 	return _iSupplierID;
 }
 
-struct Response FabricSupplier::setName(std::string name)
+Response FabricSupplier::setName(std::string name)
 {
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NOERROR;
@@ -42,7 +44,7 @@ struct Response FabricSupplier::setName(std::string name)
 		_strName = name;
 	}
 
-	struct Response stResponse = generateResponse(iCode,strResponse);
+	Response stResponse = generateResponse(iCode,strResponse);
 	return stResponse;
 }
 
@@ -51,7 +53,7 @@ std::string FabricSupplier::getName()
 	return _strName;
 }
 
-struct Response FabricSupplier::setAddress1(std::string address1)
+Response FabricSupplier::setAddress1(std::string address1)
 {
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NOERROR;
@@ -63,7 +65,7 @@ struct Response FabricSupplier::setAddress1(std::string address1)
 	else {
 		_strAddress1 = address1;
 	}
-	struct Response stResponse = generateResponse(iCode, strResponse);
+	Response stResponse = generateResponse(iCode, strResponse);
 	return stResponse;
 }
 
@@ -72,7 +74,7 @@ std::string FabricSupplier::getAddress1()
 	return _strAddress1;
 }
 
-struct Response FabricSupplier::setAddress2(std::string address2)
+Response FabricSupplier::setAddress2(std::string address2)
 {
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NOERROR;
@@ -83,7 +85,7 @@ struct Response FabricSupplier::setAddress2(std::string address2)
 	else {
 		_strAddress2 = address2;
 	}
-	struct Response stResponse = generateResponse(iCode, strResponse);
+	Response stResponse = generateResponse(iCode, strResponse);
 	return stResponse;
 }
 
@@ -92,7 +94,7 @@ std::string FabricSupplier::getAddress2()
 	return _strAddress2;
 }
 
-struct Response FabricSupplier::setCity(std::string city)
+Response FabricSupplier::setCity(std::string city)
 {
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NOERROR;
@@ -103,7 +105,7 @@ struct Response FabricSupplier::setCity(std::string city)
 	else {
 		_strCity = city;
 	}
-	struct Response stResponse = generateResponse(iCode,strResponse);
+	Response stResponse = generateResponse(iCode,strResponse);
 	return stResponse;
 }
 
@@ -112,7 +114,7 @@ std::string FabricSupplier::getCity()
 	return _strCity;
 }
 
-struct Response FabricSupplier::setState(std::string state)
+Response FabricSupplier::setState(std::string state)
 {
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NOERROR;
@@ -123,7 +125,7 @@ struct Response FabricSupplier::setState(std::string state)
 	else {
 		_strState = state;
 	}
-	struct Response stResponse = generateResponse(iCode, strResponse);
+	Response stResponse = generateResponse(iCode, strResponse);
 
 	return stResponse;
 }
@@ -133,24 +135,66 @@ std::string FabricSupplier::getState()
 	return _strState;
 }
 
-struct Response FabricSupplier::setEmail(std::string email)
+Response FabricSupplier::setEmail(std::string email)
 {
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NOERROR;
-	if (email.length() > LENGTH_50) {
+	if (email.length() > LENGTH_50) 
+	{
 		iCode = ERROR_CODE_LENGTH;
 		strResponse = "Email " + (std::string)LENGTH_LESS_THAN_50;
 	}
-	else {
+	else if (ValidationHelper::isValidEmailAddress(email))
+	{
+		iCode = ERROR_CODE_NOT_ACCEPTED_VALUE;
+		strResponse = "Email address is not valid";
+	}
+	else 
+	{
 		_strEmail = email;
 	}
-	struct Response stResponse = generateResponse(iCode, strResponse);
+	Response stResponse = generateResponse(iCode, strResponse);
 	return stResponse;
 }
 
 std::string FabricSupplier::getEmail()
 {
 	return _strEmail;
+}
+
+Response FabricSupplier::addPhoneNumber(std::string strPhoneType, std::string strPhoneDescription, std::string strPhoneNumber)
+{
+	PhoneNumber oPhone;
+	Response stResponse = oPhone.setPhoneType(strPhoneType);
+	if (stResponse.iResponseCode != ALL_OK)
+	{
+		return stResponse;
+	}
+
+	stResponse = oPhone.setPhoneDescription(strPhoneDescription);
+	if (stResponse.iResponseCode != ALL_OK)
+	{
+		return stResponse;
+	}
+
+	stResponse = oPhone.setPhoneNumber(strPhoneNumber);
+	if (stResponse.iResponseCode != ALL_OK)
+	{
+		return stResponse;
+	}
+	FabricSupplierService oService;
+	bool bInserted = oService.insertPhoneNumber(_iSupplierID, strPhoneType, strPhoneDescription, strPhoneNumber);
+	if (!bInserted)
+	{
+		return  generateResponse(ERROR_CODE_DATABASE, (std::string)DATABASE_ERROR);
+	}
+	_vecPhone.push_back(oPhone);
+	return stResponse;
+}
+
+std::vector<PhoneNumber> FabricSupplier::getPhoneNumbers()
+{
+	return _vecPhone;
 }
 
 bool FabricSupplier::save()
