@@ -79,7 +79,7 @@ void SupplierForm::OnClickedSupplierAdd()
 
 	GetDlgItemText(IDC_EDIT_SUPPLIER_EMAIL, cEmail);
 
-	struct Response stResponse;
+	Response stResponse;
 	stResponse = oFabricSupplier.setName(Helper::convertCstringToString(cName));
 	if (Helper::showDialog(stResponse))
 	{
