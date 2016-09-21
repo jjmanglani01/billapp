@@ -20,6 +20,7 @@
 #define ID_VIEW_APPLOOK_OFF_2007_AQUA   218
 #define ID_VIEW_APPLOOK_WINDOWS_7       219
 #define IDD_SUPPLIERFORM                310
+#define IDD_PHONEVIEW                   311
 #define IDC_EDIT_SUPPLIER_NAME          1000
 #define ID_FILE_ADD                     1001
 #define IDC_EDIT_SUPPLIER_PHONE         1001
@@ -31,15 +32,19 @@
 #define IDC_BUTTON_SUPPLIER_SAVE        1004
 #define IDC_EDIT1                       1005
 #define IDC_EDIT_SUPPLIER_EMAIL         1005
+#define IDC_EDIT_PHONENUMBER            1005
 #define IDC_EDIT_SUPPLIER_STATE         1006
+#define IDC_BUTTON1                     1010
+#define IDC_EDIT_PHONEDESCRIPTION       1012
+#define IDC_COMBO_PHONETYPE             1014
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        311
+#define _APS_NEXT_RESOURCE_VALUE        313
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1007
-#define _APS_NEXT_SYMED_VALUE           311
+#define _APS_NEXT_CONTROL_VALUE         1015
+#define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

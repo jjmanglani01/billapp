@@ -7,6 +7,8 @@
 #include "FabricSupplier.h"
 #include "Helper.h"
 #include "Response.h"
+#include "CustomAutoComplete.h"
+#include "PhoneView.h"
 
 // SupplierForm
 
@@ -51,8 +53,28 @@ void SupplierForm::Dump(CDumpContext& dc) const
 #endif
 #endif //_DEBUG
 
-
 // SupplierForm message handlers
+void SupplierForm::OnInitialUpdate()
+{
+	CView* phoneView;
+	phoneView = new PhoneView();
+	phoneView->Create(NULL, NULL, WS_CHILD|WS_VISIBLE, CRect(415, 0, 670, 180),this, 2001);
+	phoneView->SendMessage(WM_INITIALUPDATE, 0, 0);
+	m_vecPhoneView.push_back(phoneView);
+	CCustomAutoComplete* pAutoComplete;
+
+	pAutoComplete = new CCustomAutoComplete(HKEY_CURRENT_USER,
+		_T("Software\\VBBox.com\\StgAutoCompleteDemo\\Recent"));
+	CString str;
+	str = "Jitesh";
+	pAutoComplete->AddItem(str);
+
+	str = "Manglani";
+	pAutoComplete->AddItem(str);
+	HWND hWnd;
+	GetDlgItem(IDC_EDIT_SUPPLIER_NAME, &hWnd);
+	pAutoComplete->Bind(hWnd, ACO_UPDOWNKEYDROPSLIST | ACO_AUTOSUGGEST | ACO_AUTOAPPEND, _T("www.%s.com"));
+}
 
 
 void SupplierForm::OnClickedSupplierAdd()
@@ -66,7 +88,7 @@ void SupplierForm::OnClickedSupplierAdd()
 	CString cCity;
 	CString cState;
 	CString cEmail;
-
+	
 	GetDlgItemText(IDC_EDIT_SUPPLIER_NAME, cName);
 
 	GetDlgItemText(IDC_EDIT_SUPPLIER_ADDRESS1, cAddress1);
@@ -117,4 +139,23 @@ void SupplierForm::OnClickedSupplierAdd()
 	}
 	
 	oFabricSupplier.save();
+
+	for (int index = 0; index < m_vecPhoneView.size(); index++)
+	{
+		PhoneView* view = (PhoneView*)m_vecPhoneView[index];
+		CString strPhoneNumber, strPhoneType, strPhoneDescription;
+
+		view->m_cPhoneNumber.GetWindowTextW(strPhoneNumber);
+		view->m_cPhoneType.GetWindowTextW(strPhoneType);
+		view->m_cPhoneDesc.GetWindowTextW(strPhoneDescription);
+
+		stResponse = oFabricSupplier.addPhoneNumber(Helper::convertCstringToString(strPhoneType), Helper::convertCstringToString(strPhoneDescription),
+			Helper::convertCstringToString(strPhoneNumber));
+
+		if (Helper::showDialog(stResponse))
+		{
+			return;
+		}
+
+	}
 }
