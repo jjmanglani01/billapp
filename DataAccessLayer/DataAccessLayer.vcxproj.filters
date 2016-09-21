@@ -30,6 +30,9 @@
     <ClInclude Include="FabricSupplierService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FabricItemService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FabricSupplierService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FabricItemService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
