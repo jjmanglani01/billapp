@@ -19,7 +19,7 @@ Response FabricSupplier::setSupplierID(unsigned int iId)
 	_iSupplierID = iId;
 	Response stResponse;
 	stResponse.iResponseCode = ALL_OK;
-	stResponse.strResponseMsg = (std::string)NOERROR;
+	stResponse.strResponseMsg = (std::string)NO_ERROR;
 	return stResponse;
 }
 
@@ -31,7 +31,7 @@ unsigned int FabricSupplier::getSupplierID()
 Response FabricSupplier::setName(std::string name)
 {
 	int iCode = ALL_OK;
-	std::string strResponse = (std::string)NOERROR;
+	std::string strResponse = (std::string)NO_ERROR;
 	if (name.empty()) {
 		iCode = ERROR_CODE_NOT_NULL;
 		strResponse = "Supplier Name can not be empty";
@@ -56,7 +56,7 @@ std::string FabricSupplier::getName()
 Response FabricSupplier::setAddress1(std::string address1)
 {
 	int iCode = ALL_OK;
-	std::string strResponse = (std::string)NOERROR;
+	std::string strResponse = (std::string)NO_ERROR;
 
 	 if (address1.length() > LENGTH_200) {
 		 iCode = ERROR_CODE_LENGTH;
@@ -77,7 +77,7 @@ std::string FabricSupplier::getAddress1()
 Response FabricSupplier::setAddress2(std::string address2)
 {
 	int iCode = ALL_OK;
-	std::string strResponse = (std::string)NOERROR;
+	std::string strResponse = (std::string)NO_ERROR;
 	if (address2.length() > LENGTH_200) {
 		iCode = ERROR_CODE_LENGTH;
 		strResponse = "Address2 " + (std::string)LENGTH_LESS_THAN_200;
@@ -97,7 +97,7 @@ std::string FabricSupplier::getAddress2()
 Response FabricSupplier::setCity(std::string city)
 {
 	int iCode = ALL_OK;
-	std::string strResponse = (std::string)NOERROR;
+	std::string strResponse = (std::string)NO_ERROR;
 	if (city.length() > LENGTH_20) {
 		iCode = ERROR_CODE_LENGTH;
 		strResponse = "City " + (std::string)LENGTH_LESS_THAN_20;
@@ -117,7 +117,7 @@ std::string FabricSupplier::getCity()
 Response FabricSupplier::setState(std::string state)
 {
 	int iCode = ALL_OK;
-	std::string strResponse = (std::string)NOERROR;
+	std::string strResponse = (std::string)NO_ERROR;
 	if (state.length() > LENGTH_15) {
 		iCode = ERROR_CODE_LENGTH;
 		strResponse = "State " + (std::string)LENGTH_LESS_THAN_15;
@@ -138,13 +138,13 @@ std::string FabricSupplier::getState()
 Response FabricSupplier::setEmail(std::string email)
 {
 	int iCode = ALL_OK;
-	std::string strResponse = (std::string)NOERROR;
+	std::string strResponse = (std::string)NO_ERROR;
 	if (email.length() > LENGTH_50) 
 	{
 		iCode = ERROR_CODE_LENGTH;
 		strResponse = "Email " + (std::string)LENGTH_LESS_THAN_50;
 	}
-	else if (ValidationHelper::isValidEmailAddress(email))
+	else if (!ValidationHelper::isValidEmailAddress(email))
 	{
 		iCode = ERROR_CODE_NOT_ACCEPTED_VALUE;
 		strResponse = "Email address is not valid";

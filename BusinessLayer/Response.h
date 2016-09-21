@@ -36,7 +36,7 @@ inline struct Response generateResponse(int iCode, std::string strResponse)
 	stResponse.iResponseCode = iCode;
 	if (iCode == ALL_OK)
 	{
-		stResponse.strResponseMsg = (std::string)NOERROR;
+		stResponse.strResponseMsg = (std::string)NO_ERROR;
 	}
 	else
 	{
