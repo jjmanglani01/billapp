@@ -37,12 +37,13 @@ unsigned int  FabricSupplierService::insert(std::string strSupplierName, std::st
 		while (res->next()) {
 			retID = res->getInt("_ID");
 		}
-		oDataAccess->disconnect();
+		_pStmt->close();
+		prepStmt->close();
+		res->close();
 	}
 	catch (std::exception e) {
 		//TODO:: error
 	}
-	oDataAccess->disconnect();
 	return retID;
 }
 
@@ -53,7 +54,7 @@ bool FabricSupplierService::insertPhoneNumber(unsigned int iFabricSupplierID, st
 	try
 	{
 		oDataAccess->connect();
-		std::unique_ptr < sql::Connection>& _pCon = oDataAccess->getConnection();
+		std::unique_ptr <sql::Connection>& _pCon = oDataAccess->getConnection();
 
 		std::unique_ptr<sql::PreparedStatement> prepStmt = std::unique_ptr<sql::PreparedStatement>(_pCon->prepareStatement("CALL insert_fabric_supplier_phonenumber(?,?,?,?)"));
 
@@ -64,11 +65,11 @@ bool FabricSupplierService::insertPhoneNumber(unsigned int iFabricSupplierID, st
 		prepStmt->execute();
 		_pCon->commit();
 		bRet = true;
+		prepStmt->close();
 	}
 	catch (std::exception& e)
 	{
 		//TODO: 
 	}
-	oDataAccess->disconnect();
 	return bRet;
 }

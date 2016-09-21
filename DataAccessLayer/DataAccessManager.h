@@ -33,9 +33,9 @@ namespace DataAccess {
 		DataAccessManager();
 		static DataAccessManager *_pInstance;
 		 ~DataAccessManager();
+		void disconnect();
 	public:
 		void connect();
-		void disconnect();
 		std::unique_ptr<sql::Connection>& getConnection();
 	    static DataAccessManager* getInstance();
 	};
