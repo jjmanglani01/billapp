@@ -37,6 +37,7 @@ LPCWSTR Helper::convertStringToLpcwstr(std::string str)
 	return stemp.c_str();
 }
 
+
 void Helper::showDialog(std::string strMsg)
 {
 	MessageBox(0, convertStringToLpcwstr(strMsg), (LPCWSTR)L"Error", MB_ICONERROR | MB_OK);
@@ -51,6 +52,24 @@ bool Helper::showDialog(struct Response stResponse)
 		bRet = true;
 	}
 	return bRet;
+}
+
+bool Helper::validateDoubleString(CString value)
+{
+	bool stringShouldChange = true;
+
+	LPTSTR invalidStr;
+
+	// The code will return double value from the string and if any other characters are left after extracting double value, they will be stored in invalidStr
+
+	double doubleValue = _tcstod(value, &invalidStr);
+
+	if (*invalidStr)
+	{
+		stringShouldChange = false;
+	}
+
+	return stringShouldChange;
 }
 
 

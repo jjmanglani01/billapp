@@ -14,6 +14,7 @@ public:
 	static LPCWSTR convertStringToLpcwstr(std::string str);
 	static void showDialog(std::string strMsg);
 	static bool showDialog(struct Response);
+	static bool validateDoubleString(CString value);
 };
 
 #endif

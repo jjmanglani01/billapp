@@ -22,7 +22,7 @@ public:
 private:
 	CView* m_pStartView;
 	CView* m_pSupplierFormView;
-
+	CView* m_pFabricItem;
 // Overrides
 public:
 	virtual BOOL InitInstance();
@@ -31,9 +31,10 @@ public:
 // Implementation
 	UINT  m_nAppLook;
 	afx_msg void OnAppAbout();
-	afx_msg void OnAddSupplier();
 	bool SetActiveView(CView* pView);
 	DECLARE_MESSAGE_MAP()
+	afx_msg void OnFabricSupplier();
+	afx_msg void OnFabricItem();
 };
 
 extern CBillApp theApp;

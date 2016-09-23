@@ -11,6 +11,7 @@
 #include "BillAppDoc.h"
 #include "BillAppView.h"
 #include "SupplierForm.h"
+#include "FabricItemForm.h"
 #include <AFXPRIV.H>
 
 #ifdef _DEBUG
@@ -22,11 +23,9 @@
 
 BEGIN_MESSAGE_MAP(CBillApp, CWinApp)
 	ON_COMMAND(ID_APP_ABOUT, &CBillApp::OnAppAbout)
-	// Standard file based document commands
-	ON_COMMAND(ID_FILE_ADD, &CBillApp::OnAddSupplier)
-	ON_COMMAND(ID_FILE_OPEN, &CWinApp::OnFileOpen)
-	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
+	ON_COMMAND(ID_FABRIC_SUPPLIER, &CBillApp::OnFabricSupplier)
+	ON_COMMAND(ID_FABRIC_ITEM, &CBillApp::OnFabricItem)
 END_MESSAGE_MAP()
 
 
@@ -125,7 +124,11 @@ BOOL CBillApp::InitInstance()
 	CView* pActiveView = ((CFrameWnd*)m_pMainWnd)->GetActiveView();
 	m_pStartView= pActiveView;
 	m_pSupplierFormView = (CView*) new SupplierForm();
-	if (NULL == m_pSupplierFormView)
+	if (nullptr == m_pSupplierFormView)
+		return FALSE;
+
+	m_pFabricItem = (CView*) new FabricItemForm();
+	if (m_pFabricItem == nullptr)
 		return FALSE;
 
 	CDocument* pCurrentDoc = ((CFrameWnd*)m_pMainWnd)->GetActiveDocument();
@@ -157,6 +160,11 @@ BOOL CBillApp::InitInstance()
 	// explicitly send the message, as follows.
 	m_pSupplierFormView->SendMessage(WM_INITIALUPDATE, 0, 0);
 
+	viewID++;
+
+	m_pFabricItem->Create(NULL, _T("Add Fabric Item"), WS_CHILD, rect, m_pMainWnd, viewID, &newContext);
+
+	m_pFabricItem->SendMessage(WM_INITIALUPDATE, 0, 0);
 
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOW);
@@ -214,11 +222,6 @@ void CBillApp::OnAppAbout()
 	aboutDlg.DoModal();
 }
 
-void CBillApp::OnAddSupplier()
-{
-	SetActiveView(m_pSupplierFormView);
-}
-
 bool CBillApp::SetActiveView(CView * pView)
 {
 	bool bRet = false;
@@ -249,3 +252,15 @@ bool CBillApp::SetActiveView(CView * pView)
 
 
 
+
+
+void CBillApp::OnFabricSupplier()
+{
+	SetActiveView(m_pSupplierFormView);
+}
+
+
+void CBillApp::OnFabricItem()
+{
+	SetActiveView(m_pFabricItem);
+}

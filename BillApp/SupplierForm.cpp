@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "BillApp.h"
+#include "resource.h"
 #include "SupplierForm.h"
 #include "FabricSupplier.h"
 #include "Helper.h"
@@ -79,7 +79,6 @@ void SupplierForm::OnInitialUpdate()
 
 void SupplierForm::OnClickedSupplierAdd()
 {
-	// TODO: Add your control notification handler code here
 	FabricSupplier oFabricSupplier;
 	CString cName;
 	CString cPhoneNo;
