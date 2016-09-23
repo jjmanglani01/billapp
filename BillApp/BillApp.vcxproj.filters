@@ -51,6 +51,9 @@
     <ClInclude Include="PhoneView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FabricItemForm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BillApp.cpp">
@@ -75,6 +78,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhoneView.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FabricItemForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
