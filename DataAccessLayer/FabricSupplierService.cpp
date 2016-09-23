@@ -18,28 +18,28 @@ unsigned int  FabricSupplierService::insert(std::string strSupplierName, std::st
 	DataAccess::DataAccessManager* oDataAccess = DataAccess::DataAccessManager::getInstance();
 	try {
 		oDataAccess->connect();
-		std::unique_ptr < sql::Connection>& _pCon = oDataAccess->getConnection();
-		std::unique_ptr< sql::ResultSet > res;
-		std::unique_ptr< sql::Statement > _pStmt = std::unique_ptr<sql::Statement>(_pCon->createStatement());
+		std::unique_ptr < sql::Connection>& pCon = oDataAccess->getConnection();
+		std::unique_ptr< sql::ResultSet > pRes;
+		std::unique_ptr< sql::Statement > pStmt = std::unique_ptr<sql::Statement>(pCon->createStatement());
 
-		std::unique_ptr<sql::PreparedStatement> prepStmt = std::unique_ptr<sql::PreparedStatement>(_pCon->prepareStatement("CALL insert_fabric_supplier(?,?,?,?,?,?,@FabricSupplierID)"));
+		std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL insert_fabric_supplier(?,?,?,?,?,?,@FabricSupplierID)"));
 
-		prepStmt->setString(1, strSupplierName);
-		prepStmt->setString(2, strAddress1);
-		prepStmt->setString(3, strAddress2);
-		prepStmt->setString(4, strCity);
-		prepStmt->setString(5, strState);
-		prepStmt->setString(6, strEmail);
-		prepStmt->execute();
-		_pCon->commit();
+		pPrepStmt->setString(1, strSupplierName);
+		pPrepStmt->setString(2, strAddress1);
+		pPrepStmt->setString(3, strAddress2);
+		pPrepStmt->setString(4, strCity);
+		pPrepStmt->setString(5, strState);
+		pPrepStmt->setString(6, strEmail);
+		pPrepStmt->execute();
+		pCon->commit();
 
-		res.reset(_pStmt->executeQuery("SELECT @FabricSupplierID AS _ID"));
-		while (res->next()) {
-			retID = res->getInt("_ID");
+		pRes.reset(pStmt->executeQuery("SELECT @FabricSupplierID AS _ID"));
+		while (pRes->next()) {
+			retID = pRes->getInt("_ID");
 		}
-		_pStmt->close();
-		prepStmt->close();
-		res->close();
+		pStmt->close();
+		pPrepStmt->close();
+		pRes->close();
 	}
 	catch (std::exception e) {
 		//TODO:: error
@@ -54,18 +54,18 @@ bool FabricSupplierService::insertPhoneNumber(unsigned int iFabricSupplierID, st
 	try
 	{
 		oDataAccess->connect();
-		std::unique_ptr <sql::Connection>& _pCon = oDataAccess->getConnection();
+		std::unique_ptr <sql::Connection>& pCon = oDataAccess->getConnection();
 
-		std::unique_ptr<sql::PreparedStatement> prepStmt = std::unique_ptr<sql::PreparedStatement>(_pCon->prepareStatement("CALL insert_fabric_supplier_phonenumber(?,?,?,?)"));
+		std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL insert_fabric_supplier_phonenumber(?,?,?,?)"));
 
-		prepStmt->setInt(1, iFabricSupplierID);
-		prepStmt->setString(2, _strPhoneType);
-		prepStmt->setString(3, _strPhoneDescription);
-		prepStmt->setString(4, _strPhoneNumber);
-		prepStmt->execute();
-		_pCon->commit();
+		pPrepStmt->setInt(1, iFabricSupplierID);
+		pPrepStmt->setString(2, _strPhoneType);
+		pPrepStmt->setString(3, _strPhoneDescription);
+		pPrepStmt->setString(4, _strPhoneNumber);
+		pPrepStmt->execute();
+		pCon->commit();
 		bRet = true;
-		prepStmt->close();
+		pPrepStmt->close();
 	}
 	catch (std::exception& e)
 	{
