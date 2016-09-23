@@ -53,8 +53,8 @@ bool ValidationHelper::isValidPhoneNumber(const std::string & strNumber)
 
 bool ValidationHelper::isValidEmailAddress(const std::string&  strEmailAddress)
 {
-	if (strEmailAddress.empty()) // If cannot read the Email Address...
-		return 0;
+	//if (strEmailAddress.empty()) // If cannot read the Email Address...
+	//	return 0;
 	if (!isCharacter(strEmailAddress[0])) // If the First character is not A-Z, a-z
 		return 0;
 	int AtOffset = -1;

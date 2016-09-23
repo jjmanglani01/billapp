@@ -16,21 +16,24 @@
 #define LENGTH_50 50
 #define LENGTH_30 30
 #define LENGTH_13 13
+#define LENGTH_5 5
 
 #define NO_ERROR "No Error"
+#define LENGTH_LESS_THAN_EQUAL " value lenth should be less than equal to "
 #define LENGTH_LESS_THAN_200 "value length should be less than 200"
 #define LENGTH_LESS_THAN_100 "value length should be less than 100"
 #define LENGTH_LESS_THAN_15 "value length should be less than 15"
 #define LENGTH_LESS_THAN_20 "value length should be less than 20"
 #define LENGTH_LESS_THAN_50 "value length should be less than 50"
 #define DATABASE_ERROR "Database error occured"
+#define NOT_ACCEPTED_VALUE "Value is not accepted"
 
 struct Response {
 	int iResponseCode;
 	std::string strResponseMsg;
 };
 
-inline struct Response generateResponse(int iCode, std::string strResponse)
+inline struct Response generateResponse(int iCode, std::string strResponse = "")
 {
 	Response stResponse;
 	stResponse.iResponseCode = iCode;
@@ -45,4 +48,20 @@ inline struct Response generateResponse(int iCode, std::string strResponse)
 	return stResponse;
 }
 
+
+inline struct Response getResponseForLength(int length, std::string strFieldValue, std::string strFieldName)
+{
+	Response stResponse;
+	stResponse.iResponseCode = ALL_OK;
+	stResponse.strResponseMsg = (std::string)NO_ERROR;
+
+	if (strFieldValue.length() > length)
+	{
+		stResponse.iResponseCode = ERROR_CODE_LENGTH;
+		stResponse.strResponseMsg = strFieldName + (std::string)LENGTH_LESS_THAN_EQUAL;
+		stResponse.strResponseMsg.append(std::to_string(length));
+	}
+
+	return stResponse;
+}
 #endif
