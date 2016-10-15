@@ -12,70 +12,7 @@ FabricItem::~FabricItem()
 {
 }
 
-Response FabricItem::setFabricItemID(unsigned int iId)
-{
-	_iFabricItemID = iId;
-	return generateResponse(ALL_OK, "");
-}
-
-unsigned int FabricItem::getFabricItemID()
-{
-	return _iFabricItemID;
-}
-
-Response FabricItem::setFabricName(std::string strFabricName)
-{
-	Response stResponse = getResponseForLength(LENGTH_100, strFabricName, "Fabric Name");
-	if (stResponse.iResponseCode == ALL_OK)
-	{
-		_strFabricName = strFabricName;
-	}
-	return stResponse;
-}
-
-std::string FabricItem::getFabicName()
-{
-	return _strFabricName;
-}
-
-Response FabricItem::setFabricShortcut(std::string strShortcut)
-{
-	Response stResponse = getResponseForLength(LENGTH_5, strShortcut, "Fabric Shortcut");
-	if (stResponse.iResponseCode == ALL_OK)
-	{
-		_strFabricShortcutName = strShortcut;
-	}
-	return stResponse;
-}
-
-std::string FabricItem::getFabricShortcut()
-{
-	return _strFabricShortcutName;
-}
-
-Response FabricItem::setFabricQuantity(double quantity)
-{
-	_dQuantity = quantity;
-	return generateResponse(ALL_OK, "");
-}
-
-double FabricItem::getFabricQuantity()
-{
-	return _dQuantity;
-}
-
-Response FabricItem::setFabricUnitPrice(double unitPrice)
-{
-	_dUnitPrice = unitPrice;
-	return generateResponse(ALL_OK, "");
-}
-
-double FabricItem::getFabricUnitPrice()
-{
-	return _dUnitPrice;
-}
-
-Response FabricItem::setFabricColor(std::string strColor)
+Response FabricItem::setFabricColor(const std::string &strColor)
 {
 	Response stResponse = getResponseForLength(LENGTH_15, strColor, "Fabric colour");
 	if (stResponse.iResponseCode == ALL_OK)
@@ -90,7 +27,7 @@ std::string FabricItem::getFabricColor()
 	return _strColor;
 }
 
-Response FabricItem::setFabricType(std::string strType)
+Response FabricItem::setFabricType(const std::string &strType)
 {
 	Response stResponse = getResponseForLength(LENGTH_15, strType, "Fabric Type");
 	if (stResponse.iResponseCode == ALL_OK)
@@ -109,10 +46,10 @@ bool FabricItem::save()
 {
 	bool bRet = false;
 	FabricItemService oService;
-	unsigned int iRet = oService.insert(_strFabricName,_strFabricShortcutName,_dQuantity,_dUnitPrice,_strColor,_strFabricType);
+	unsigned int iRet = oService.insert(getName(), getShortcut(), getQuantity(), getUnitPrice(), _strColor, _strFabricType);
 	if (iRet)
 	{
-		setFabricItemID(iRet);
+		setItemID(iRet);
 		bRet = true;
 	}
 	return bRet;
@@ -127,4 +64,35 @@ bool FabricItem::deleteData()
 {
 	return  bool();
 }
+
+std::vector<std::unique_ptr<ItemInterface>>& FabricItem::getAllItem()
+{
+	return m_vecItem;
+}
+
+std::vector< std::unique_ptr< ItemInterface > > FabricItem::m_vecItem = []() -> std::vector< std::unique_ptr< ItemInterface > >
+{
+	std::vector< std::unique_ptr<ItemInterface > > vec;
+	FabricItemService oSer;
+	std::unique_ptr<sql::ResultSet> rs;
+	oSer.getAll(rs);
+
+	while (rs->next()) {
+		std::unique_ptr<FabricItem> pFabricItem = std::make_unique<FabricItem>();
+
+		pFabricItem->setItemID(rs->getInt(strId));
+		pFabricItem->setName(rs->getString(strFabricname).operator const std::string &());
+		pFabricItem->setShortcut(rs->getString(strShortcut).operator const std::string &());
+		pFabricItem->setQuantity(rs->getDouble(strQuantity));
+		pFabricItem->setUnitPrice(rs->getDouble(strUnitPrice));
+		pFabricItem->setFabricColor(rs->getString(strColor).operator const std::string &());
+		pFabricItem->setFabricType(rs->getString(strType).operator const std::string &());
+
+		vec.push_back(std::move(pFabricItem));
+	}
+	rs->close();
+	return vec;
+}();
+
+
 
