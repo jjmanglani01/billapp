@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `FabricInvoices` (
     FabricInvoiceID INT UNSIGNED NOT NULL AUTO_INCREMENT,
     FabricSupplierID INT UNSIGNED,
     BillAmount DECIMAL(11 , 2 ) NOT NULL DEFAULT 0,
-    BillDate DATE NOT NULL,
+    BillDate DATETIME NOT NULL,
     PRIMARY KEY (FabricInvoiceID),
     INDEX (FabricSupplierID),
     FOREIGN KEY (FabricSupplierID)
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS `FabricPayments` (
 CREATE TABLE IF NOT EXISTS `FabricInvoiceItems` (
     FabricInvoiceID INT UNSIGNED NOT NULL,
     FabricItemID INT UNSIGNED NOT NULL,
-    Quantity INT UNSIGNED DEFAULT 0,
+    Quantity DECIMAL DEFAULT 0,
     UnitPrice DECIMAL(11 , 2 ),
     PRIMARY KEY (FabricInvoiceID , FabricItemID),
     INDEX (FabricItemID),
