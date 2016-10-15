@@ -44,6 +44,7 @@ unsigned int  FabricSupplierService::insert(std::string strSupplierName, std::st
 	catch (std::exception e) {
 		//TODO:: error
 	}
+	oDataAccess->disconnect();
 	return retID;
 }
 
@@ -71,5 +72,6 @@ bool FabricSupplierService::insertPhoneNumber(unsigned int iFabricSupplierID, st
 	{
 		//TODO: 
 	}
+	oDataAccess->disconnect();
 	return bRet;
 }

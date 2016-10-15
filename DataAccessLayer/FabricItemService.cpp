@@ -43,5 +43,27 @@ unsigned int FabricItemService::insert(std::string strFabricName, std::string st
 	catch (std::exception e) {
 		//TODO:: error
 	}
+	oDataAccess->disconnect();
 	return retID;
+}
+
+void FabricItemService::getAll(std::unique_ptr<sql::ResultSet>& pRes)
+{
+	DataAccess::DataAccessManager* oDataAccess = DataAccess::DataAccessManager::getInstance();
+	
+	try {
+		oDataAccess->connect();
+		std::unique_ptr < sql::Connection>& pCon = oDataAccess->getConnection();
+		if (pCon&&pCon->isValid()) {
+			std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL get_all_fabric_item()"));
+
+			pRes = std::unique_ptr<sql::ResultSet>(pPrepStmt->executeQuery());
+			pCon->commit();
+			pPrepStmt->close();
+		}
+	}
+	catch (std::exception e) {
+		//TODO:: error
+	}
+	oDataAccess->disconnect();
 }

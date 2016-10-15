@@ -14,21 +14,19 @@ namespace DataAccess {
 
 	DataAccessManager::DataAccessManager() {
 		_pDriver = std::unique_ptr<sql::mysql::MySQL_Driver>(sql::mysql::get_mysql_driver_instance());
-		_pCon = std::unique_ptr<sql::Connection>(_pDriver->connect(DBHOST, USER, PASSWORD));
-		_pCon->setAutoCommit(0);
-		_pCon->setSchema(DATABASE);
 	}
 
 	void DataAccessManager::connect() {
-		if (_pCon->isClosed()) {
-			_pCon->reconnect();
-		}
+		_pCon = std::unique_ptr<sql::Connection>(_pDriver->connect(DBHOST, USER, PASSWORD));
+		_pCon->setAutoCommit(0);
+		_pCon->setSchema(DATABASE);
 	}
 
 	void DataAccessManager::disconnect() {
 		if (!_pCon->isClosed()) {
 			_pCon->close();
 		}
+		_pCon.reset();
 	}
 
 	std::unique_ptr<sql::Connection>& DataAccessManager::getConnection()
@@ -42,6 +40,7 @@ namespace DataAccess {
 		_pCon.reset();
 		_pDriver.reset();
 	}
+
 	DataAccessManager* DataAccessManager::getInstance()
 	{
 		if (_pInstance == nullptr) {
