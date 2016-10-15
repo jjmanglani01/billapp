@@ -19,6 +19,11 @@ std::string Helper::convertCstringToString(CString str)
 	return std::string(pszConvertedAnsiString);
 }
 
+CString Helper::convertStringToCString(std::string strValue)
+{
+	return CString(strValue.c_str());
+}
+
 std::wstring Helper::stringTowstring(const std::string & str)
 {
 	int len;

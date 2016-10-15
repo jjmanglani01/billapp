@@ -10,6 +10,7 @@ public:
 	Helper();
 	~Helper();
 	static std::string convertCstringToString(CString str);
+	static CString convertStringToCString(std::string str);
 	static std::wstring stringTowstring(const std::string& str);
 	static LPCWSTR convertStringToLpcwstr(std::string str);
 	static void showDialog(std::string strMsg);

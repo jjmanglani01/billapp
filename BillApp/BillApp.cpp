@@ -12,6 +12,7 @@
 #include "BillAppView.h"
 #include "SupplierForm.h"
 #include "FabricItemForm.h"
+#include "FabricInvoiceView.h"
 #include <AFXPRIV.H>
 
 #ifdef _DEBUG
@@ -26,6 +27,7 @@ BEGIN_MESSAGE_MAP(CBillApp, CWinApp)
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinApp::OnFilePrintSetup)
 	ON_COMMAND(ID_FABRIC_SUPPLIER, &CBillApp::OnFabricSupplier)
 	ON_COMMAND(ID_FABRIC_ITEM, &CBillApp::OnFabricItem)
+	ON_COMMAND(ID_FABRIC_INVOICE, &CBillApp::OnFabricInvoice)
 END_MESSAGE_MAP()
 
 
@@ -131,6 +133,10 @@ BOOL CBillApp::InitInstance()
 	if (m_pFabricItem == nullptr)
 		return FALSE;
 
+	m_pFabricInvoice = (CView*) new FabricInvoiceView();
+	if (m_pFabricInvoice == nullptr)
+		return FALSE;
+
 	CDocument* pCurrentDoc = ((CFrameWnd*)m_pMainWnd)->GetActiveDocument();
 
 	// Initialize a CCreateContext to point to the active document.
@@ -165,6 +171,12 @@ BOOL CBillApp::InitInstance()
 	m_pFabricItem->Create(NULL, _T("Add Fabric Item"), WS_CHILD, rect, m_pMainWnd, viewID, &newContext);
 
 	m_pFabricItem->SendMessage(WM_INITIALUPDATE, 0, 0);
+
+	viewID++;
+
+	m_pFabricInvoice->Create(NULL, _T("Add Fabric Invoice"), WS_CHILD, rect, m_pMainWnd, viewID, &newContext);
+
+	m_pFabricInvoice->SendMessage(WM_INITIALUPDATE, 0, 0);
 
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOW);
@@ -263,4 +275,10 @@ void CBillApp::OnFabricSupplier()
 void CBillApp::OnFabricItem()
 {
 	SetActiveView(m_pFabricItem);
+}
+
+
+void CBillApp::OnFabricInvoice()
+{
+	SetActiveView(m_pFabricInvoice);
 }

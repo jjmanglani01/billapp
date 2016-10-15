@@ -73,25 +73,25 @@ void FabricItemForm::OnBnClickedButtonFabricitemsave()
 	GetDlgItemText(IDC_EDIT_FABRICITEMTYPE, cFabricType);
 
 	Response stResponse;
-	stResponse = oFabricItem.setFabricName(Helper::convertCstringToString(cName));
+	stResponse = oFabricItem.setName(Helper::convertCstringToString(cName));
 	if (Helper::showDialog(stResponse))
 	{
 		return;
 	}
 
-	stResponse = oFabricItem.setFabricShortcut(Helper::convertCstringToString(cShortcut));
+	stResponse = oFabricItem.setShortcut(Helper::convertCstringToString(cShortcut));
 	if (Helper::showDialog(stResponse))
 	{
 		return;
 	}
 
-	stResponse = oFabricItem.setFabricQuantity(_tstof(cQuantity));
+	stResponse = oFabricItem.setQuantity(_tstof(cQuantity));
 	if (Helper::showDialog(stResponse))
 	{
 		return;
 	}
 
-	stResponse = oFabricItem.setFabricUnitPrice(_tstof(cUnitPrice));
+	stResponse = oFabricItem.setUnitPrice(_tstof(cUnitPrice));
 	if (Helper::showDialog(stResponse))
 	{
 		return;

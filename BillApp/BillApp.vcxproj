@@ -114,7 +114,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Documents\git\billapp\DataAccessLayer;C:\Documents\mongodbc++\boost_1_61;C:\Program Files\MySQL\Connector.C++ 1.1\include;C:\Documents\git\billapp\BusinessLayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Ultimate Grid\Skel;..\Ultimate Grid\Lib;..\Ultimate Grid\Include;C:\Documents\git\billapp\DataAccessLayer;C:\Documents\mongodbc++\boost_1_61;C:\Program Files\MySQL\Connector.C++ 1.1\include;C:\Documents\git\billapp\BusinessLayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -167,13 +167,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>C:\Documents\git\billapp\DataAccessLayer;C:\Documents\mongodbc++\boost_1_61;C:\Program Files\MySQL\Connector.C++ 1.1\include;C:\Documents\git\billapp\BusinessLayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\Ultimate Grid\Skel;..\Ultimate Grid\Lib;..\Ultimate Grid\Include;C:\Documents\git\billapp\DataAccessLayer;C:\Documents\mongodbc++\boost_1_61;C:\Program Files\MySQL\Connector.C++ 1.1\include;C:\Documents\git\billapp\BusinessLayer;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Documents\git\billapp\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\Ultimate Grid\BuildLib;C:\Documents\git\billapp\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>BusinessLayer.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
@@ -191,12 +191,17 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Ultimate Grid\Include\UGDtaSrc.h" />
+    <ClInclude Include="..\Ultimate Grid\Skel\MyCUG.h" />
     <ClInclude Include="BillApp.h" />
     <ClInclude Include="BillAppDoc.h" />
     <ClInclude Include="BillAppView.h" />
     <ClInclude Include="CustomAutoComplete.h" />
+    <ClInclude Include="CustomDataSource.h" />
+    <ClInclude Include="FabricInvoiceView.h" />
     <ClInclude Include="FabricItemForm.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="InvoicItemView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="PhoneView.h" />
     <ClInclude Include="Resource.h" />
@@ -208,9 +213,13 @@
     <ClCompile Include="BillApp.cpp" />
     <ClCompile Include="BillAppDoc.cpp" />
     <ClCompile Include="BillAppView.cpp" />
+    <ClCompile Include="CustomDataSource.cpp" />
+    <ClCompile Include="FabricInvoiceView.cpp" />
     <ClCompile Include="FabricItemForm.cpp" />
     <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="InvoicItemView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MyCUG.cpp" />
     <ClCompile Include="PhoneView.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -219,6 +228,37 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="SupplierForm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Ultimate Grid\Source\UGCBType.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGCell.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGCelTyp.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGCnrBtn.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGCTarrw.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGCtrl.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGDLType.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGDrgDrp.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGDrwHnt.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGDtaSrc.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGEdit.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGEditBase.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ugformat.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\uggdinfo.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGGrid.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGHint.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ughscrol.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ugLstBox.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGMEdit.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGMemMan.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGMultiS.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ugprint.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ugptrlst.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ugsidehd.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGStrOp.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ugtab.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGTopHdg.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\ugvscrol.cpp" />
+    <ClCompile Include="..\Ultimate Grid\Source\UGXPThemes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BillApp.rc" />

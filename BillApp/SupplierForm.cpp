@@ -58,22 +58,23 @@ void SupplierForm::OnInitialUpdate()
 {
 	CView* phoneView;
 	phoneView = new PhoneView();
+	//TODO: UI ID
 	phoneView->Create(NULL, NULL, WS_CHILD|WS_VISIBLE, CRect(415, 0, 670, 180),this, 2001);
 	phoneView->SendMessage(WM_INITIALUPDATE, 0, 0);
 	m_vecPhoneView.push_back(phoneView);
-	CCustomAutoComplete* pAutoComplete;
+	CCustomAutoComplete* m_pAutoComplete;
 
-	pAutoComplete = new CCustomAutoComplete(HKEY_CURRENT_USER,
+	m_pAutoComplete = new CCustomAutoComplete(HKEY_CURRENT_USER,
 		_T("Software\\VBBox.com\\StgAutoCompleteDemo\\Recent"));
 	CString str;
 	str = "Jitesh";
-	pAutoComplete->AddItem(str);
+	m_pAutoComplete->AddItem(str);
 
 	str = "Manglani";
-	pAutoComplete->AddItem(str);
+	m_pAutoComplete->AddItem(str);
 	HWND hWnd;
 	GetDlgItem(IDC_EDIT_SUPPLIER_NAME, &hWnd);
-	pAutoComplete->Bind(hWnd, ACO_UPDOWNKEYDROPSLIST | ACO_AUTOSUGGEST | ACO_AUTOAPPEND, _T("www.%s.com"));
+	m_pAutoComplete->Bind(hWnd, ACO_UPDOWNKEYDROPSLIST | ACO_AUTOSUGGEST | ACO_AUTOAPPEND, _T("www.%s.com"));
 }
 
 
