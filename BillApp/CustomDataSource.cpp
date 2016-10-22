@@ -17,18 +17,39 @@ int CustomDataSource::GetCell(int col, long row, CUGCell * cell)
 	if (row == -1) {
 		if (!cell->IsPropertySet(UGCELL_TEXT_SET)) {
 			std::string str = m_pData->GetFieldName(col);
-			cell->SetText(Helper::convertStringToLpcwstr(str));
-			cell->SetPropertyFlags(UGCELL_TEXT_SET);
+			if (!str.empty()) {
+				cell->SetText(Helper::stringToLpctstr(str));
+				cell->SetPropertyFlags(UGCELL_TEXT_SET);
+			}
 		}
 	}
-
+	else {
+		if (!cell->IsPropertySet(UGCELL_TEXT_SET)) {
+			if (col == -1) {
+				cell->SetText(Helper::stringToLpctstr(std::to_string(row + 1)));
+			}
+			
+			std::string str = m_pData->getValueForField(row, col);
+			if (!str.empty()) {
+				cell->SetText(Helper::stringToLpctstr(str));
+				cell->SetPropertyFlags(UGCELL_TEXT_SET);
+			}
+		}
+		else if (!cell->IsPropertySet(UGCELL_CELLTYPE_SET) && m_pData->getColType(col)) {
+			cell->SetCellType(m_pData->getColType(col));
+			cell->SetPropertyFlags(UGCELL_CELLTYPE_SET);
+			cell->SetReadOnly(FALSE);
+		}
+		else if (!cell->IsPropertySet(UGCELL_DATATYPE_SET) && m_pData->getColDataType(col)) {
+			cell->SetDataType(m_pData->getColDataType(col));
+			cell->SetPropertyFlags(UGCELL_DATATYPE_SET);
+		}
+	}
 	return UG_SUCCESS;
 }
 
 int CustomDataSource::SetCell(int col, long row, CUGCell * cell)
 {
-	CString text;
-	cell->GetText(&text);
 	return 0;
 }
 
@@ -49,10 +70,10 @@ int CustomDataSource::GetColName(int col, CString * string)
 
 long CustomDataSource::GetNumRows()
 {
-	return 2;
+	return m_pData->getNumRows();
 }
 
 int CustomDataSource::GetNumCols()
 {
-	return 4;
+	return m_pData->getNumCols();
 }

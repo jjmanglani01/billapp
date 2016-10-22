@@ -36,10 +36,22 @@ std::wstring Helper::stringTowstring(const std::string & str)
 	return r;
 }
 
+LPCTSTR Helper::stringToLpctstr(const std::string & str)
+{
+	return CA2CT(str.c_str());
+}
+
 LPCWSTR Helper::convertStringToLpcwstr(std::string str)
 {
 	std::wstring stemp = stringTowstring(str);
 	return stemp.c_str();
+}
+
+LPCTSTR Helper::convertUnsignedIntToLpctstr(unsigned int uiValue)
+{
+	//tstringstream stros;
+	//stros << uiValue;
+	//return stros.str().c_str();
 }
 
 

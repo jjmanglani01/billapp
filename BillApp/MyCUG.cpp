@@ -9,6 +9,7 @@
 #include "CustomAutoComplete.h"
 #include "ItemInterface.h"
 #include "Helper.h"
+#include <algorithm>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,8 +29,9 @@ END_MESSAGE_MAP()
 // Standard MyCug construction/destruction
 MyCug::MyCug()
 {
+	m_iDataId = -1;
 	m_pAutoComplete = std::make_unique<CCustomAutoComplete>(HKEY_CURRENT_USER,
-		_T("Software\\VBBox.com\\StgAutoCompleteDemo\\Recent"));
+		_T("Software\\AutoComplete\\Item"));
 }
 
 MyCug::~MyCug()
@@ -43,11 +45,6 @@ MyCug::~MyCug()
 //		It can be used to initially setup the grid
 void MyCug::OnSetup()
 {
-	m_pInvoice = std::make_shared<FabricInvoice>();
-	CustomDataSource* ptr = new CustomDataSource(m_pInvoice);
-	int iId = AddDataSource(ptr);
-	SetDefDataSource(iId);
-	SetGridUsingDataSource(iId);
 }
 
 
@@ -63,6 +60,16 @@ void MyCug::OnSetup()
 void MyCug::OnSheetSetup(int sheetNumber)
 {
 	UNREFERENCED_PARAMETER(sheetNumber);
+}
+
+void MyCug::SetInvoiceDataSource(std::shared_ptr<Invoice> ptr)
+{
+	m_pInvoice = std::move(ptr);
+	CustomDataSource* ptrData = new CustomDataSource(m_pInvoice);
+	int iId = AddDataSource(ptrData);
+	m_iDataId = iId;
+	SetDefDataSource(iId);
+	SetGridUsingDataSource(iId);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -843,7 +850,7 @@ int MyCug::OnEditStart(int col, long row, CWnd **edit)
 {
 	CUGCell cell;
 	GetCellIndirect(col, row, &cell);
-
+	//TODO:
 	if (col == 1) {
 		CString str;
 		std::vector< std::unique_ptr < ItemInterface > >& vec = m_pInvoice->GetAllItem();
@@ -878,8 +885,6 @@ int MyCug::OnEditVerify(int col, long row, CWnd *edit, UINT *vcKey)
 	UNREFERENCED_PARAMETER(col);
 	UNREFERENCED_PARAMETER(row);
 	UNREFERENCED_PARAMETER(*edit);
-	int i;
-	std::cout << vcKey;
 	return TRUE;
 }
 
@@ -896,8 +901,25 @@ int MyCug::OnEditVerify(int col, long row, CWnd *edit, UINT *vcKey)
 //		FALSE - to force the user back to editing of that same cell
 int MyCug::OnEditFinish(int col, long row, CWnd *edit, LPCTSTR string, BOOL cancelFlag)
 {
-	UNREFERENCED_PARAMETER(edit);
-	return TRUE;
+	//TODO: 1-no hard code
+	int iRet = TRUE;
+	if (col == 1) {
+		std::string str = CT2A(string);
+		std::vector< std::unique_ptr < ItemInterface > >& vec = m_pInvoice->GetAllItem();
+		auto it = std::find_if(begin(vec), end(vec), [&str](std::unique_ptr < ItemInterface >& obj) {return obj->getName() == str; });
+		if (it != end(vec)) {
+			m_pInvoice->addItemId(row, (*it)->getItemID());
+			m_pInvoice->addUnitPrice(row, (*it)->getUnitPrice());
+			m_pInvoice->addboolbAdd(row, true);
+		}
+	}
+	else if (col == 2) {
+		wchar_t* endPtr;
+		double dValue = _tcstod(string, &endPtr);
+		m_pInvoice->addQuantity(row, dValue);
+	}
+	SetGridUsingDataSource(m_iDataId);
+	return iRet;
 }
 
 /////////////////////////////////////////////////////////////////////////////
