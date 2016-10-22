@@ -70,6 +70,12 @@ std::vector<std::unique_ptr<ItemInterface>>& FabricItem::getAllItem()
 	return m_vecItem;
 }
 
+std::unique_ptr<ItemInterface>& FabricItem::getItemById(unsigned int iId)
+{
+	auto it = std::find_if(begin(m_vecItem), end(m_vecItem), [&iId](std::unique_ptr < ItemInterface >& obj) {return obj->getItemID() == iId; });
+	return *it;
+}
+
 std::vector< std::unique_ptr< ItemInterface > > FabricItem::m_vecItem = []() -> std::vector< std::unique_ptr< ItemInterface > >
 {
 	std::vector< std::unique_ptr<ItemInterface > > vec;

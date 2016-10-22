@@ -1,11 +1,23 @@
 #pragma once
 #ifndef __FABRICSUPPLIER_H_INCLUDED__
 #define __FABRICSUPPLIER_H_INCLUDED__
+
 #include <string>
 #include <vector>
 struct Response;
 class PhoneNumber;
 #include "stdafx.h"
+#include <memory>
+
+const std::string strId = "FabricSupplierId";
+const std::string strSuppliername = "SupplierName";
+const std::string strAddress1 = "Address1";
+const std::string strAddress2 = "Address2";
+const std::string strCity = "City";
+const std::string strState = "State";
+const std::string strEmail = "Email";
+const std::string strBillAmount = "BillAmount";
+const std::string strPaidAmount = "PaidAmount";
 
 class FabricSupplier
 {
@@ -18,16 +30,17 @@ private:
 	std::string _strState;
 	std::string _strEmail;
 	std::vector<PhoneNumber> _vecPhone;
+	static std::vector< std::unique_ptr<FabricSupplier > > m_vecFabricSupplier;
 public:
 	BUSINESSLAYER_API  FabricSupplier();
 	BUSINESSLAYER_API  ~FabricSupplier();
-	
+
 	BUSINESSLAYER_API Response setSupplierID(unsigned int iId);
 	BUSINESSLAYER_API  unsigned int getSupplierID();
 
 	BUSINESSLAYER_API Response setName(std::string name);
 	BUSINESSLAYER_API  std::string getName();
-	
+
 	BUSINESSLAYER_API Response setAddress1(std::string address1);
 	BUSINESSLAYER_API  std::string getAddress1();
 
@@ -49,6 +62,8 @@ public:
 	BUSINESSLAYER_API bool save();
 	BUSINESSLAYER_API bool update();
 	BUSINESSLAYER_API bool deleteData();
+	BUSINESSLAYER_API static std::vector< std::unique_ptr< FabricSupplier > >& getAllItem();
+	BUSINESSLAYER_API static std::unique_ptr<FabricSupplier>& getItemById(unsigned int iId);
 };
 
 #endif

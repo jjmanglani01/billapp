@@ -2,6 +2,8 @@
 #ifndef __ITEMINTERFACE_H_INCLUDED_
 #define __ITEMINTERFACE_H_INCLUDED_
 #include <string>
+#include <vector>
+#include <memory>
 #include "Response.h"
 #include "stdafx.h"
 
@@ -31,6 +33,7 @@ public:
 
 	BUSINESSLAYER_API virtual Response setUnitPrice(double unitPrice);
 	BUSINESSLAYER_API virtual double getUnitPrice();
+
 };
 
 #endif

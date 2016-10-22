@@ -17,5 +17,4 @@
 #define BUSINESSLAYER_API __declspec(dllimport) 
 #endif
 
-
 // TODO: reference additional headers your program requires here

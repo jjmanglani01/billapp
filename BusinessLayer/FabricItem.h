@@ -37,6 +37,7 @@ public:
 	BUSINESSLAYER_API bool update();
 	BUSINESSLAYER_API bool deleteData();
 	BUSINESSLAYER_API static std::vector< std::unique_ptr< ItemInterface > >& getAllItem();
+	BUSINESSLAYER_API static std::unique_ptr<ItemInterface>& getItemById(unsigned int iId);
 };
 
 #endif

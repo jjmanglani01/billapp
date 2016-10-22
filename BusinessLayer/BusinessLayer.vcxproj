@@ -154,6 +154,7 @@
     <ClInclude Include="FabricInvoice.h" />
     <ClInclude Include="FabricItem.h" />
     <ClInclude Include="Invoice.h" />
+    <ClInclude Include="InvoiceItem.h" />
     <ClInclude Include="ItemInterface.h" />
     <ClInclude Include="PhoneNumber.h" />
     <ClInclude Include="Response.h" />

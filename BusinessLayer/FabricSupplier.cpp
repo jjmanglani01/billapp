@@ -44,7 +44,7 @@ Response FabricSupplier::setName(std::string name)
 		_strName = name;
 	}
 
-	Response stResponse = generateResponse(iCode,strResponse);
+	Response stResponse = generateResponse(iCode, strResponse);
 	return stResponse;
 }
 
@@ -58,9 +58,9 @@ Response FabricSupplier::setAddress1(std::string address1)
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NO_ERROR;
 
-	 if (address1.length() > LENGTH_200) {
-		 iCode = ERROR_CODE_LENGTH;
-		 strResponse = "Address1 should be less than 200";
+	if (address1.length() > LENGTH_200) {
+		iCode = ERROR_CODE_LENGTH;
+		strResponse = "Address1 should be less than 200";
 	}
 	else {
 		_strAddress1 = address1;
@@ -105,7 +105,7 @@ Response FabricSupplier::setCity(std::string city)
 	else {
 		_strCity = city;
 	}
-	Response stResponse = generateResponse(iCode,strResponse);
+	Response stResponse = generateResponse(iCode, strResponse);
 	return stResponse;
 }
 
@@ -139,7 +139,7 @@ Response FabricSupplier::setEmail(std::string email)
 {
 	int iCode = ALL_OK;
 	std::string strResponse = (std::string)NO_ERROR;
-	if (email.length() > LENGTH_50) 
+	if (email.length() > LENGTH_50)
 	{
 		iCode = ERROR_CODE_LENGTH;
 		strResponse = "Email " + (std::string)LENGTH_LESS_THAN_50;
@@ -149,7 +149,7 @@ Response FabricSupplier::setEmail(std::string email)
 		iCode = ERROR_CODE_NOT_ACCEPTED_VALUE;
 		strResponse = "Email address is not valid";
 	}
-	else 
+	else
 	{
 		_strEmail = email;
 	}
@@ -201,13 +201,13 @@ bool FabricSupplier::save()
 {
 	bool bRet = false;
 	FabricSupplierService oService;
-	 unsigned int iRet = oService.insert(_strName, _strAddress1, _strAddress2, _strCity, _strState, _strEmail);
-	 if (iRet)
-	 {
-		 setSupplierID(iRet);
-		 bRet = true;
-	 }
-	 return bRet;
+	unsigned int iRet = oService.insert(_strName, _strAddress1, _strAddress2, _strCity, _strState, _strEmail);
+	if (iRet)
+	{
+		setSupplierID(iRet);
+		bRet = true;
+	}
+	return bRet;
 }
 
 bool FabricSupplier::update()
@@ -219,3 +219,38 @@ bool FabricSupplier::deleteData()
 {
 	return 0;
 }
+
+std::vector<std::unique_ptr<FabricSupplier>>& FabricSupplier::getAllItem()
+{
+	return m_vecFabricSupplier;
+}
+
+std::unique_ptr<FabricSupplier>& FabricSupplier::getItemById(unsigned int iId)
+{
+	// TODO: insert return statement here
+	return std::unique_ptr<FabricSupplier>();
+}
+
+std::vector< std::unique_ptr< FabricSupplier > > FabricSupplier::m_vecFabricSupplier = []() -> std::vector< std::unique_ptr< FabricSupplier > >
+{
+	std::vector< std::unique_ptr< FabricSupplier > > vec;
+	FabricSupplierService oSer;
+	std::unique_ptr<sql::ResultSet> rs;
+	rs = oSer.getAll();
+
+	while (rs->next()) {
+		std::unique_ptr<FabricSupplier> pFabricSupplier = std::make_unique<FabricSupplier>();
+
+		pFabricSupplier->setSupplierID(rs->getInt(strId));
+		pFabricSupplier->setName(rs->getString(strSuppliername).operator const std::string &());
+		pFabricSupplier->setAddress1(rs->getString(strAddress1).operator const std::string &());
+		pFabricSupplier->setAddress2(rs->getString(strAddress2).operator const std::string &());
+		pFabricSupplier->setCity(rs->getString(strCity));
+		pFabricSupplier->setEmail(rs->getString(strEmail));
+		pFabricSupplier->setState(rs->getString(strState));
+
+		vec.push_back(std::move(pFabricSupplier));
+	}
+	rs->close();
+	return vec;
+}();

@@ -7,6 +7,7 @@
 #define ERROR_CODE_LENGTH 102
 #define ERROR_CODE_NOT_ACCEPTED_VALUE 103
 #define ERROR_CODE_DATABASE 104
+#define ERROR_CODE_DUPLICATE 105
 
 #define ALL_OK 200
 #define LENGTH_100 100
@@ -27,6 +28,7 @@
 #define LENGTH_LESS_THAN_50 "value length should be less than 50"
 #define DATABASE_ERROR "Database error occured"
 #define NOT_ACCEPTED_VALUE "Value is not accepted"
+#define DUPLICATE_VALUE "Duplicate value is not allowed for this field"
 
 struct Response {
 	int iResponseCode;
