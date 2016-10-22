@@ -21,10 +21,11 @@ unsigned int FabricInvoiceService::insert(unsigned int iFabricSupplierId, double
 		std::unique_ptr< sql::ResultSet > pRes;
 		std::unique_ptr< sql::Statement > pStmt = std::unique_ptr<sql::Statement>(pCon->createStatement());
 
-		std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL insert_fabric_invoice(?,?,@FabricInvoiceID)"));
+		std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL insert_fabric_invoice(?,?,?,@FabricInvoiceID)"));
 
 		pPrepStmt->setInt(1, iFabricSupplierId);
-		pPrepStmt->setString(2, strDate);
+		pPrepStmt->setDouble(2, dBillAmount);
+		pPrepStmt->setDateTime(3, sql::SQLString(strDate));
 		pPrepStmt->execute();
 		pCon->commit();
 
@@ -43,20 +44,19 @@ unsigned int FabricInvoiceService::insert(unsigned int iFabricSupplierId, double
 	return retID;
 }
 
-bool FabricInvoiceService::insertFabricInvoiceItem(unsigned int iFabricInvoiceId, unsigned int iFabricItemId, double dQuantity, double dUnitPrice,bool bAddQuantity)
+bool FabricInvoiceService::insertInvoiceItem(unsigned int iInvoiceId, unsigned int iItemId, double dQuantity, double dUnitPrice, bool bAddQuantity)
 {
 	bool bRet = false;
 	DataAccess::DataAccessManager* oDataAccess = DataAccess::DataAccessManager::getInstance();
 	try {
 		oDataAccess->connect();
 		std::unique_ptr < sql::Connection>& pCon = oDataAccess->getConnection();
-		std::unique_ptr< sql::ResultSet > pRes;
 		std::unique_ptr< sql::Statement > pStmt = std::unique_ptr<sql::Statement>(pCon->createStatement());
 
-		std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL insert_fabric_invoice_item(?,?,?,?)"));
+		std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL insert_fabric_invoice_item(?,?,?,?,?)"));
 
-		pPrepStmt->setInt(1, iFabricInvoiceId);
-		pPrepStmt->setInt(2, iFabricItemId);
+		pPrepStmt->setInt(1, iInvoiceId);
+		pPrepStmt->setInt(2, iItemId);
 		pPrepStmt->setDouble(3, dQuantity);
 		pPrepStmt->setDouble(4, dUnitPrice);
 		pPrepStmt->setBoolean(5, bAddQuantity);
@@ -66,7 +66,6 @@ bool FabricInvoiceService::insertFabricInvoiceItem(unsigned int iFabricInvoiceId
 
 		pStmt->close();
 		pPrepStmt->close();
-		pRes->close();
 		bRet = true;
 	}
 	catch (std::exception e) {

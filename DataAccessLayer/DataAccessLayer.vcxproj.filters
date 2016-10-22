@@ -36,6 +36,9 @@
     <ClInclude Include="FabricInvoiceService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="InvoiceService.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -54,6 +57,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FabricInvoiceService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InvoiceService.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

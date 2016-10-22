@@ -75,3 +75,25 @@ bool FabricSupplierService::insertPhoneNumber(unsigned int iFabricSupplierID, st
 	oDataAccess->disconnect();
 	return bRet;
 }
+
+std::unique_ptr<sql::ResultSet> FabricSupplierService::getAll()
+{
+	DataAccess::DataAccessManager* oDataAccess = DataAccess::DataAccessManager::getInstance();
+	std::unique_ptr<sql::ResultSet> pRes;
+	try {
+		oDataAccess->connect();
+		std::unique_ptr < sql::Connection>& pCon = oDataAccess->getConnection();
+		if (pCon&&pCon->isValid()) {
+			std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL get_all_fabric_supplier()"));
+
+			pRes = std::unique_ptr<sql::ResultSet>(pPrepStmt->executeQuery());
+			pCon->commit();
+			pPrepStmt->close();
+		}
+	}
+	catch (std::exception e) {
+		//TODO:: error
+	}
+	oDataAccess->disconnect();
+	return std::move(pRes);
+}
