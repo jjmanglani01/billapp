@@ -1,8 +1,9 @@
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_fabric_payment`(IN FabricSupplierID INT UNSIGNED,IN PaymentType ENUM('Cash', 'Cheque', 'Net Banking'),
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_fabric_payment`(IN FabricSupplierID INT UNSIGNED,
+	IN PaymentType ENUM('Cash', 'Cheque', 'Net Banking'),
     IN PaymentDate DATETIME,
     IN Amount DECIMAL(11 , 2 ),
     IN ChequeNo VARCHAR(10),
-    IN ChequeDate DATE)
+    IN ChequeDate DATETIME)
 BEGIN
 	CALL insert_payment(PaymentType,PaymentDate,Amount,@PaymentID);
 	IF PaymentType = 'Cheque' THEN
@@ -12,7 +13,7 @@ BEGIN
 		VALUES(FabricSupplierID,@PaymentID);
 	UPDATE FabricSuppliers 
 SET 
-    PaidAmount = PadiAmount + Amount
+    PaidAmount = PaidAmount + Amount
 WHERE
     FabricSuppliers.FabricSupplierID = FabricSupplierID;
 END
