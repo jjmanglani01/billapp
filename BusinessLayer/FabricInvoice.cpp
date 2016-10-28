@@ -30,17 +30,6 @@ unsigned int FabricInvoice::getFabricSupplierID()
 	return _iFabricSupplierID;
 }
 
-Response FabricInvoice::setInvoiceDate(std::string strDate)
-{
-	_strDate = strDate;
-	return generateResponse(ALL_OK);
-}
-
-std::string FabricInvoice::getInvoiceDate()
-{
-	return _strDate;
-}
-
 bool FabricInvoice::save()
 {
 	bool bRet = false;
@@ -120,13 +109,21 @@ std::string FabricInvoice::getValueForField(int row, int col)
 	}
 	else if (col == 1) {
 		std::unique_ptr<ItemInterface> &pFabricItem = FabricItem::getItemById(m_vecItem[row].m_iItemId);
-		strReturnValue = pFabricItem->getName();
+		if (pFabricItem) {
+			strReturnValue = pFabricItem->getName();
+		}
 	}
 	else if (col == 2) {
 		strReturnValue = std::to_string(m_vecItem[row].m_dQuantity);
 	}
 	else if (col == 3) {
 		strReturnValue = std::to_string(m_vecItem[row].m_dUnitPrice);
+	}
+	else if (col == 4) {
+		strReturnValue = std::to_string(m_vecItem[row].m_dQuantity*m_vecItem[row].m_dUnitPrice);
+	}
+	else if (col == 5) {
+		strReturnValue = std::to_string(m_vecItem[row].m_bAdd);
 	}
 	return strReturnValue;
 }
@@ -137,8 +134,9 @@ int FabricInvoice::getColType(int col)
 	int iRetType = 0;
 	if (col == 5) {
 		//2- UGCT_CHECKBOX
-		return 2;
+		iRetType = 2;
 	}
+	return iRetType;
 }
 
 int FabricInvoice::getColDataType(int col)
@@ -146,7 +144,7 @@ int FabricInvoice::getColDataType(int col)
 	int iRet = 0;
 	if (col == 3 || col == 4) {
 		//5 - Currency 
-		return 5;
+		return 2;
 	}
 	return iRet;
 }

@@ -25,13 +25,15 @@ public:
 
 	virtual BUSINESSLAYER_API Response setInvoiceID(unsigned int iId);
 	virtual BUSINESSLAYER_API unsigned int getInvoiceID();
+	virtual BUSINESSLAYER_API Response setInvoiceDate(std::string strDate);
+	virtual BUSINESSLAYER_API std::string getInvoiceDate();
 
 	virtual BUSINESSLAYER_API std::string GetFieldName(int col);
 	virtual BUSINESSLAYER_API std::vector<std::unique_ptr<ItemInterface>>& GetAllItem();
 	virtual BUSINESSLAYER_API Response addItemId(int row, unsigned int iId);
 	virtual BUSINESSLAYER_API void addQuantity(int row, double dQuan);
 	virtual BUSINESSLAYER_API void addUnitPrice(int row, double dUnitPrice);
-	virtual BUSINESSLAYER_API void addboolbAdd(int row, bool bAdd);
+	virtual BUSINESSLAYER_API void addboolbAdd(int row);
 	virtual BUSINESSLAYER_API std::string getValueForField(int row, int col);
 	virtual BUSINESSLAYER_API int getNumCols();
 	virtual BUSINESSLAYER_API int getNumRows();

@@ -18,9 +18,6 @@ public:
 	BUSINESSLAYER_API ~FabricInvoice();
 	BUSINESSLAYER_API Response setFabricSupplierID(unsigned int iSupplierID);
 	BUSINESSLAYER_API unsigned int getFabricSupplierID();
-	BUSINESSLAYER_API Response setInvoiceDate(std::string strDate);
-	BUSINESSLAYER_API std::string getInvoiceDate();
-
 
 	BUSINESSLAYER_API bool save();
 	BUSINESSLAYER_API bool update();

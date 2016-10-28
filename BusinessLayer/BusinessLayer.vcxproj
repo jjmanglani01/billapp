@@ -131,7 +131,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;BUSINESSLAYER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -153,9 +153,11 @@
   <ItemGroup>
     <ClInclude Include="FabricInvoice.h" />
     <ClInclude Include="FabricItem.h" />
+    <ClInclude Include="FabricPayment.h" />
     <ClInclude Include="Invoice.h" />
     <ClInclude Include="InvoiceItem.h" />
     <ClInclude Include="ItemInterface.h" />
+    <ClInclude Include="Payment.h" />
     <ClInclude Include="PhoneNumber.h" />
     <ClInclude Include="Response.h" />
     <ClInclude Include="FabricSupplier.h" />
@@ -180,9 +182,11 @@
     </ClCompile>
     <ClCompile Include="FabricInvoice.cpp" />
     <ClCompile Include="FabricItem.cpp" />
+    <ClCompile Include="FabricPayment.cpp" />
     <ClCompile Include="FabricSupplier.cpp" />
     <ClCompile Include="Invoice.cpp" />
     <ClCompile Include="ItemInterface.cpp" />
+    <ClCompile Include="Payment.cpp" />
     <ClCompile Include="PhoneNumber.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

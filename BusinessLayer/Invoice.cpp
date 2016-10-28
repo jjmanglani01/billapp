@@ -25,6 +25,17 @@ unsigned int Invoice::getInvoiceID()
 	return m_iInvoiceID;
 }
 
+Response Invoice::setInvoiceDate(std::string strDate)
+{
+	_strDate = strDate;
+	return generateResponse(ALL_OK);
+}
+
+std::string Invoice::getInvoiceDate()
+{
+	return _strDate;
+}
+
 std::string Invoice::GetFieldName(int col)
 {
 	return std::string();
@@ -44,6 +55,7 @@ Response Invoice::addItemId(int row, unsigned int iId)
 		if (row < m_vecItem.size()) {
 			InvoiceItem item = m_vecItem[row];
 			item.m_iItemId = iId;
+			m_vecItem[row] = item;
 		}
 		else {
 			InvoiceItem item;
@@ -86,9 +98,13 @@ void Invoice::addUnitPrice(int row, double dUnitPrice)
 	}
 }
 
-void Invoice::addboolbAdd(int row, bool bAdd = true)
+void Invoice::addboolbAdd(int row)
 {
-
+	if (row < m_vecItem.size()) {
+		InvoiceItem item = m_vecItem[row];
+		item.m_bAdd = !item.m_bAdd;
+		m_vecItem[row] = item;
+	}
 }
 
 std::string Invoice::getValueForField(int row, int col)
@@ -103,7 +119,15 @@ int Invoice::getNumCols()
 
 int Invoice::getNumRows()
 {
-	return m_vecItem.size() + 1;
+	int iRow, iSize = m_vecItem.size();
+	iRow = iSize;
+	if (iSize == 0) {
+		iRow = 1;
+	}
+	else if (iSize > 0 && m_vecItem[iSize - 1].m_iItemId != 0) {
+		iRow = iSize + 1;
+	}
+	return iRow;
 }
 
 int Invoice::getColType(int col)
