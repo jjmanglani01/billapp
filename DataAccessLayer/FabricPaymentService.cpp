@@ -23,10 +23,10 @@ bool FabricPaymentService::insert(unsigned int iFabricSupplierID, std::string st
 
 		pPrepStmt->setUInt(1, iFabricSupplierID);
 		pPrepStmt->setString(2, strPaymentType);
-		pPrepStmt->setString(3, strDate);
+		pPrepStmt->setDateTime(3, strDate);
 		pPrepStmt->setDouble(4, dAmount);
-		pPrepStmt->setString(5, strChequeDate);
-		pPrepStmt->setString(6, strChequeNo);
+		pPrepStmt->setString(5, strChequeNo);
+		pPrepStmt->setDateTime(6, strChequeDate);
 		pPrepStmt->execute();
 		pCon->commit();
 
