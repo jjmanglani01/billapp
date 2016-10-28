@@ -154,6 +154,7 @@
     <ClInclude Include="DataAccessManager.h" />
     <ClInclude Include="FabricInvoiceService.h" />
     <ClInclude Include="FabricItemService.h" />
+    <ClInclude Include="FabricPaymentService.h" />
     <ClInclude Include="FabricSupplierService.h" />
     <ClInclude Include="InvoiceService.h" />
     <ClInclude Include="stdafx.h" />
@@ -177,6 +178,7 @@
     </ClCompile>
     <ClCompile Include="FabricInvoiceService.cpp" />
     <ClCompile Include="FabricItemService.cpp" />
+    <ClCompile Include="FabricPaymentService.cpp" />
     <ClCompile Include="FabricSupplierService.cpp" />
     <ClCompile Include="InvoiceService.cpp" />
     <ClCompile Include="stdafx.cpp">

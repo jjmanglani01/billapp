@@ -23,7 +23,7 @@ unsigned int FabricInvoiceService::insert(unsigned int iFabricSupplierId, double
 
 		std::unique_ptr<sql::PreparedStatement> pPrepStmt = std::unique_ptr<sql::PreparedStatement>(pCon->prepareStatement("CALL insert_fabric_invoice(?,?,?,@FabricInvoiceID)"));
 
-		pPrepStmt->setInt(1, iFabricSupplierId);
+		pPrepStmt->setUInt(1, iFabricSupplierId);
 		pPrepStmt->setDouble(2, dBillAmount);
 		pPrepStmt->setDateTime(3, sql::SQLString(strDate));
 		pPrepStmt->execute();
