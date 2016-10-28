@@ -8,7 +8,7 @@ struct Response;
 
 class Payment
 {
-private:
+protected:
 	unsigned long int m_iPaymentID;
 	std::string m_strPaymentType;
 	std::string m_strDate;

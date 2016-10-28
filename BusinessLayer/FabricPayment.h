@@ -14,6 +14,9 @@ public:
 
 	BUSINESSLAYER_API void setFabricSupplierID(unsigned int iID);
 	BUSINESSLAYER_API unsigned int getFabricSupplierID();
+	
+	BUSINESSLAYER_API bool save();
+	BUSINESSLAYER_API bool update();
 };
 
 #endif
