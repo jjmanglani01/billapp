@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `PhoneTypes`(
 CREATE TABLE IF NOT EXISTS `Payments` (
     PaymentID BIGINT UNSIGNED AUTO_INCREMENT,
     PaymentType ENUM('Cash', 'Cheque', 'Net Banking') DEFAULT 'Cash',
-    PaymentDate DATE,
+    PaymentDate DATETIME,
     Amount DECIMAL(11 , 2 ),
     PRIMARY KEY (PaymentID)
 )  ENGINE=INNODB;
