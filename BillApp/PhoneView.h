@@ -31,6 +31,7 @@ public:
 	CEdit m_cPhoneNumber;
 	CComboBox m_cPhoneType;
 	CEdit m_cPhoneDesc;
+	afx_msg void OnCbnSelchangeComboPhonetype();
 };
 
 

@@ -13,6 +13,8 @@
 #include "SupplierForm.h"
 #include "FabricItemForm.h"
 #include "FabricInvoiceView.h"
+#include "FabricPaymentView.h"
+
 #include <AFXPRIV.H>
 
 #ifdef _DEBUG
@@ -28,6 +30,7 @@ BEGIN_MESSAGE_MAP(CBillApp, CWinApp)
 	ON_COMMAND(ID_FABRIC_SUPPLIER, &CBillApp::OnFabricSupplier)
 	ON_COMMAND(ID_FABRIC_ITEM, &CBillApp::OnFabricItem)
 	ON_COMMAND(ID_FABRIC_INVOICE, &CBillApp::OnFabricInvoice)
+	ON_COMMAND(ID_FABRIC_PAYMENT, &CBillApp::OnFabricPayment)
 END_MESSAGE_MAP()
 
 
@@ -137,6 +140,9 @@ BOOL CBillApp::InitInstance()
 	if (m_pFabricInvoice == nullptr)
 		return FALSE;
 
+	m_pFabricPayment = (CView*)new FabricPaymentView();
+	if (m_pFabricPayment == nullptr)
+		return FALSE;
 	CDocument* pCurrentDoc = ((CFrameWnd*)m_pMainWnd)->GetActiveDocument();
 
 	// Initialize a CCreateContext to point to the active document.
@@ -178,6 +184,12 @@ BOOL CBillApp::InitInstance()
 
 	m_pFabricInvoice->SendMessage(WM_INITIALUPDATE, 0, 0);
 
+	viewID++;
+
+	m_pFabricPayment->Create(NULL, _T("Add Fabric Payment"), WS_CHILD, rect, m_pMainWnd, viewID, &newContext);
+
+	m_pFabricPayment->SendMessage(WM_INITIALUPDATE, 0, 0);
+
 	// The one and only window has been initialized, so show and update it
 	m_pMainWnd->ShowWindow(SW_SHOW);
 	m_pMainWnd->UpdateWindow();
@@ -188,7 +200,10 @@ int CBillApp::ExitInstance()
 {
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
-
+	delete m_pFabricInvoice;
+	delete m_pFabricItem;
+	delete m_pFabricPayment;
+	delete m_pSupplierFormView;
 	return CWinApp::ExitInstance();
 }
 
@@ -281,4 +296,10 @@ void CBillApp::OnFabricItem()
 void CBillApp::OnFabricInvoice()
 {
 	SetActiveView(m_pFabricInvoice);
+}
+
+
+void CBillApp::OnFabricPayment()
+{
+	SetActiveView(m_pFabricPayment);
 }

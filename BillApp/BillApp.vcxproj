@@ -200,6 +200,7 @@
     <ClInclude Include="CustomDataSource.h" />
     <ClInclude Include="FabricInvoiceView.h" />
     <ClInclude Include="FabricItemForm.h" />
+    <ClInclude Include="FabricPaymentView.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="InvoicItemView.h" />
     <ClInclude Include="MainFrm.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="CustomDataSource.cpp" />
     <ClCompile Include="FabricInvoiceView.cpp" />
     <ClCompile Include="FabricItemForm.cpp" />
+    <ClCompile Include="FabricPaymentView.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="InvoicItemView.cpp" />
     <ClCompile Include="MainFrm.cpp" />

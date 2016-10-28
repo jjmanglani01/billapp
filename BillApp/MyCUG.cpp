@@ -789,7 +789,7 @@ void MyCug::OnSetCell(int col, long row, CUGCell *cell)
 {
 	UNREFERENCED_PARAMETER(col);
 	UNREFERENCED_PARAMETER(row);
-	cell->SetText(cell->GetText());
+	//cell->SetText(cell->GetText());
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -828,8 +828,8 @@ void MyCug::OnDataSourceNotify(int ID, long msg, long param)
 int MyCug::OnCellTypeNotify(long ID, int col, long row, long msg, long param)
 {
 	UNREFERENCED_PARAMETER(ID);
-	UNREFERENCED_PARAMETER(col);
 	UNREFERENCED_PARAMETER(row);
+	UNREFERENCED_PARAMETER(col);
 	UNREFERENCED_PARAMETER(msg);
 	UNREFERENCED_PARAMETER(param);
 	return TRUE;
@@ -910,11 +910,14 @@ int MyCug::OnEditFinish(int col, long row, CWnd *edit, LPCTSTR string, BOOL canc
 		if (it != end(vec)) {
 			m_pInvoice->addItemId(row, (*it)->getItemID());
 			m_pInvoice->addUnitPrice(row, (*it)->getUnitPrice());
-			m_pInvoice->addboolbAdd(row, true);
 		}
 	}
 	else if (col == 2) {
+		//TODO: decide behaviour of quantity should be added first or not
 		wchar_t* endPtr;
+		if (string == NULL || string[0] == 0) {
+			return iRet;
+		}
 		double dValue = _tcstod(string, &endPtr);
 		m_pInvoice->addQuantity(row, dValue);
 	}

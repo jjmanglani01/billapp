@@ -25,6 +25,7 @@ public:
 	static void showDialog(std::string strMsg);
 	static bool showDialog(struct Response);
 	static bool validateDoubleString(CString value);
+	static unsigned int convertCstringToInt(CString str);
 };
 
 #endif

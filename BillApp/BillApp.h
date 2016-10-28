@@ -24,6 +24,7 @@ private:
 	CView* m_pSupplierFormView;
 	CView* m_pFabricItem;
 	CView* m_pFabricInvoice;
+	CView* m_pFabricPayment;
 // Overrides
 public:
 	virtual BOOL InitInstance();
@@ -37,6 +38,7 @@ public:
 	afx_msg void OnFabricSupplier();
 	afx_msg void OnFabricItem();
 	afx_msg void OnFabricInvoice();
+	afx_msg void OnFabricPayment();
 };
 
 extern CBillApp theApp;

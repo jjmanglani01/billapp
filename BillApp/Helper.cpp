@@ -73,7 +73,7 @@ bool Helper::showDialog(struct Response stResponse)
 
 bool Helper::validateDoubleString(CString value)
 {
-	bool stringShouldChange = true;
+	bool validString = true;
 
 	LPTSTR invalidStr;
 
@@ -83,10 +83,16 @@ bool Helper::validateDoubleString(CString value)
 
 	if (*invalidStr)
 	{
-		stringShouldChange = false;
+		validString = false;
 	}
 
-	return stringShouldChange;
+	return validString;
+}
+
+unsigned int Helper::convertCstringToInt(CString str)
+{
+	wchar_t* ptr = new wchar_t();
+	return _tcstoul((LPCTSTR)str, &ptr, 10);
 }
 
 

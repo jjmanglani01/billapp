@@ -69,6 +69,9 @@
     <ClInclude Include="..\Ultimate Grid\Include\UGDtaSrc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="FabricPaymentView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BillApp.cpp">
@@ -195,6 +198,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CustomDataSource.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FabricPaymentView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

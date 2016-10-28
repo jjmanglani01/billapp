@@ -24,32 +24,54 @@ int CustomDataSource::GetCell(int col, long row, CUGCell * cell)
 		}
 	}
 	else {
+
+		if (!cell->IsPropertySet(UGCELL_DATATYPE_SET) && m_pData->getColDataType(col)) {
+			cell->SetDataType(m_pData->getColDataType(col));
+			cell->SetPropertyFlags(UGCELL_DATATYPE_SET);
+		}
+
+		if (m_pData->getColType(col)) {
+			if (!cell->IsPropertySet(UGCELL_CELLTYPE_SET)) {
+				cell->SetCellType(m_pData->getColType(col));
+				cell->SetPropertyFlags(UGCELL_CELLTYPE_SET);
+				cell->SetCellTypeEx(UGCT_CHECKBOXUSEALIGN);
+				cell->SetAlignment(UG_ALIGNCENTER | UG_ALIGNVCENTER);
+				cell->SetBool(TRUE);
+				cell->SetReadOnly(FALSE);
+				std::string str = m_pData->getValueForField(row, col);
+				if (!str.empty()) {
+					if (str == "1") {
+						cell->SetBool(TRUE);
+					}
+					else {
+						cell->SetBool(FALSE);
+					}
+				}
+			}
+		}
+
 		if (!cell->IsPropertySet(UGCELL_TEXT_SET)) {
 			if (col == -1) {
 				cell->SetText(Helper::stringToLpctstr(std::to_string(row + 1)));
 			}
-			
+
 			std::string str = m_pData->getValueForField(row, col);
 			if (!str.empty()) {
 				cell->SetText(Helper::stringToLpctstr(str));
 				cell->SetPropertyFlags(UGCELL_TEXT_SET);
 			}
 		}
-		else if (!cell->IsPropertySet(UGCELL_CELLTYPE_SET) && m_pData->getColType(col)) {
-			cell->SetCellType(m_pData->getColType(col));
-			cell->SetPropertyFlags(UGCELL_CELLTYPE_SET);
-			cell->SetReadOnly(FALSE);
-		}
-		else if (!cell->IsPropertySet(UGCELL_DATATYPE_SET) && m_pData->getColDataType(col)) {
-			cell->SetDataType(m_pData->getColDataType(col));
-			cell->SetPropertyFlags(UGCELL_DATATYPE_SET);
-		}
+
+
 	}
 	return UG_SUCCESS;
 }
 
 int CustomDataSource::SetCell(int col, long row, CUGCell * cell)
 {
+	if (col == 5) {
+		m_pData->addboolbAdd(row);
+	}
 	return 0;
 }
 

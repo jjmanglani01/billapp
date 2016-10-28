@@ -95,8 +95,7 @@ void FabricInvoiceView::OnBnClickedButtonFabricinvoiceSave()
 
 	GetDlgItemText(IDC_EDIT_FABRICINVOICE_SUPPLIER, strSupplierID);
 
-	wchar_t* ptr = new wchar_t();
-	int iSupplierID = _tcstoul((LPCTSTR)strSupplierID, &ptr, 10);
+	unsigned int iSupplierID = Helper::convertCstringToInt(strSupplierID);
 
 	m_date.GetTime(billDate);
 
