@@ -11,6 +11,7 @@ class FabricPaymentView : public CFormView
 
 private:
 	CDateTimeCtrl m_datePayment, m_dateCheque;
+	CString m_valueAmount;
 public:
 	FabricPaymentView();           // protected constructor used by dynamic creation
 	virtual ~FabricPaymentView();
@@ -32,6 +33,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButtonPaymentFabricSave();
+	afx_msg void OnEnChangeEditPaymentFabricAmount();
 };
 
 

@@ -117,11 +117,10 @@ void FabricItemForm::OnEnChangeEditFabricitemquantity()
 {
 	CString value;
 
-	CEdit* m_ValueEditBox = (CEdit*)GetDlgItem(IDC_EDIT_FABRICITEMQUANTITY);
-	m_ValueEditBox->GetWindowText(value);   //m_ValueEditBox is a variable for EditControl
+	CEdit* ctrlEditBox = (CEdit*)GetDlgItem(IDC_EDIT_FABRICITEMQUANTITY);
+	ctrlEditBox->GetWindowText(value);   //m_ValueEditBox is a variable for EditControl
 
-										   //Cursor position in Edit Control
-	int lastSel = m_ValueEditBox->GetSel();
+	int lastSel = ctrlEditBox->GetSel();
 
 	if (Helper::validateDoubleString(value))
 	{
@@ -129,11 +128,11 @@ void FabricItemForm::OnEnChangeEditFabricitemquantity()
 	}
 	else
 	{
-		m_ValueEditBox->SetWindowText(m_valueQuantity);
+		ctrlEditBox->SetWindowText(m_valueQuantity);
 
 		//Setting the cursor position to previous position
 		/* This step is very important, because if it is not written then cursor will move to left or right after above step depending whether the text is left or right aligned.*/
-		m_ValueEditBox->SetSel(lastSel);
+		ctrlEditBox->SetSel(lastSel);
 		Helper::showDialog(NOT_ACCEPTED_VALUE);
 	}
 }
